@@ -1,6 +1,6 @@
 import puppeteer, { Browser, Page } from 'puppeteer';
 import pLimit from 'p-limit';
-import * as FileUtility from './FileUtility';
+import * as FileUtility from '../FileUtility';
 
 const limit = pLimit(10);
 

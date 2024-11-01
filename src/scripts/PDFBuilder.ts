@@ -1,4 +1,4 @@
-import * as FileUtility from './FileUtility'
+import * as FileUtility from '../FileUtility'
 
 const defaultOutputDirectoryName = "output";
 

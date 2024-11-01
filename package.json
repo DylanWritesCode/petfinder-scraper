@@ -6,5 +6,9 @@
     "p-limit": "^3.1.0",
     "puppeteer": "^23.6.1",
     "puppeteer-core": "^23.6.1"
+  },
+  "scripts": {
+    "scraper": "ts-node src/scripts/ScrapePetFinder.ts",
+    "generate-pdf": "ts-node src/scripts/PDFbuilder.ts"
   }
 }
