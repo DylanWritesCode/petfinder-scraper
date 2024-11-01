@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@types/puppeteer": "^7.0.4",
+    "html2pdf-ts": "^1.2.22",
+    "node-fetch": "^3.3.2",
+    "p-limit": "^3.1.0",
+    "puppeteer": "^23.6.1",
+    "puppeteer-core": "^23.6.1"
+  }
+}
