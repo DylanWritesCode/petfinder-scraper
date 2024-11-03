@@ -2,8 +2,8 @@ name: Generate and Upload Release Files
 
 on:
   push:
-    branches:
-      - main  # Adjust this to your default branch if different
+    tags:
+      - 'v*'  # Trigger on version tags (e.g., v1.0.0)
 
 jobs:
   create_release:
