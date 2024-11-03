@@ -30,11 +30,11 @@ jobs:
         run: |
           VERSION=$(node -p "require('./package.json').version")
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
-          
-      - name: Upload Release Assets
-            uses: softprops/action-gh-release@v1
-            with:
-              tag_name: ${{ github.ref }}
-              files: release/**  # Adjust the path to match your release folder
-            env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Automatically provided by GitHub Actions
+
+- name: Upload Release Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref }}
+          files: release/**  # Adjust the path to match your files
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Automatically provided by GitHub Actions
