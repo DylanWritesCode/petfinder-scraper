@@ -5,7 +5,7 @@ import {Constants} from '../constants';
 import {default as path} from 'path'
 import { Data } from '../interfaces/Data';
 
-const limit = pLimit(10);
+let limit = pLimit(10);
 
 const dataFilePath = path.join(Constants.dataDirectory, Constants.dataFile);
 const htmlFilePath = path.join(Constants.outputDirectory, Constants.htmlFile);
@@ -25,7 +25,9 @@ const petLinks:string[] = [];
 let processedLinks: Data[] = [];
 let browser:Browser | undefined = undefined;
 
-export function initialize(petFinderSearchUrl:string, pdfFileName:string, backupRetention:number){
+export function initialize(petFinderSearchUrl:string, pdfFileName:string, backupRetention:number, processLimit:number){
+  limit = pLimit(processLimit);
+  
   petfindSearchPageUrl = petFinderSearchUrl;
   pdfName = pdfFileName;
 
