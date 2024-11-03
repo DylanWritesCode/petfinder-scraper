@@ -15,7 +15,7 @@
   "scripts": {
     "dev": "ts-node src/index.ts",
     "start": "tsc && cp template.html dist && node dist/index.js",
-    "package": "tsc && ts-node scripts/copy-required-files.ts && pkg . --out-path release --public && node scripts/download-chrome.js"
+    "package": "tsc && npx ts-node scripts/copy-required-files.ts && pkg . --out-path release --public && node scripts/download-chrome.js"
   },
   "pkg": {
     "outputPath": "release",
@@ -25,7 +25,9 @@
       "dist/template.html"
     ],
     "targets": [
-      "latest-macos-arm64"
+      "latest-macos-arm64",
+      "latest-linux-arm64",
+      "latest-win-arm64"
     ]
   },
   "devDependencies": {
