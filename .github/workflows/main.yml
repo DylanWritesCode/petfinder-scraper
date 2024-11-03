@@ -24,9 +24,9 @@ jobs:
       - name: Build and Package
         run: npm run package  # Replace this with your actual build command
 
-      - name: Read version from package.json
+      - name: Get version from package.json
         id: get_version
-        run: echo "VERSION=$(node -p \"require('./package.json').version\")" >> $GITHUB_ENV
+        run: echo "VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
 
       - name: Create Release
         id: create_release
@@ -44,6 +44,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ env.VERSION }}  # Use the same version for uploading
-          files: path/to/your/release/files/**  # Adjust to match the location of your generated files
+          files: release/**  # Adjust to match the location of your generated files
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Automatically provided by GitHub Actions
