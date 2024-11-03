@@ -30,22 +30,11 @@ jobs:
         run: |
           VERSION=$(node -p "require('./package.json').version")
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag: ${{ env.VERSION }}
-          release_name: Release ${{ env.VERSION }}
-          body: |
-            Changes in this release:
-            - Update with your changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          
       - name: Upload Release Assets
-        uses: softprops/action-gh-release@v1
-        with:
-          tag: ${{ env.VERSION }}
-          files: release/**/* # Adjust this path to where your release files are located
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            uses: softprops/action-gh-release@v1
+            with:
+              tag_name: ${{ github.ref }}
+              files: release/**  # Adjust the path to match your release folder
+            env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Automatically provided by GitHub Actions
