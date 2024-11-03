@@ -1,4 +1,5 @@
 export interface Config{
     PetFinderSearchPageUrl: string,
-    PDFFileName: string
+    PDFFileName: string,
+    BackupFileRetentionDays:number
 }

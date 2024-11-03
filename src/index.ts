@@ -7,5 +7,5 @@ const config = JSON.parse(fs.readFileSync('./config.json', 'utf8')) as Config;
 console.log('App Started.');
 console.log('Initializing PetFinder scraper...')
 
-petFinderScraper.initialize(config.PetFinderSearchPageUrl, config.PDFFileName);
+petFinderScraper.initialize(config.PetFinderSearchPageUrl, config.PDFFileName, config.BackupFileRetentionDays);
 petFinderScraper.beginScraper();

@@ -25,7 +25,7 @@ const petLinks:string[] = [];
 let processedLinks: Data[] = [];
 let browser:Browser | undefined = undefined;
 
-export function initialize(petFinderSearchUrl:string, pdfFileName:string){
+export function initialize(petFinderSearchUrl:string, pdfFileName:string, backupRetention:number){
   petfindSearchPageUrl = petFinderSearchUrl;
   pdfName = pdfFileName;
 
@@ -36,6 +36,9 @@ export function initialize(petFinderSearchUrl:string, pdfFileName:string){
   console.log("PetFinder Scraper initialized.");
 
   if(FileUtility.fileExists(dataFilePath)) {
+    const backupDataFileDirectoryPath = path.join(Constants.dataDirectory,Constants.backupDataDirectory);
+    FileUtility.backupDataFile(dataFilePath, backupDataFileDirectoryPath, backupRetention)
+
     console.log(`Loading saved data...`);
     processedLinks = JSON.parse(FileUtility.readFile(dataFilePath)) as Data[];
     console.log(`${processedLinks.length+1} pet bios already exported.`);
@@ -88,7 +91,7 @@ export function beginScraper(){
 
     console.log('Generating PDF file..');
     if(pdfName != undefined) {
-      FileUtility.processHTMLFilesToPDF(Constants.outputDirectory,htmlDirectory, pdfName);
+      await FileUtility.processHTMLFilesToPDF(Constants.outputDirectory,htmlDirectory, pdfName);
     }
 
     console.log('Cleaning up HTML meta data...');
