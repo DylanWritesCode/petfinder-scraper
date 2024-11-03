@@ -3,6 +3,7 @@ import * as path from 'path';
 
 import { html2pdf } from 'html2pdf-ts';
 import { HTML2PDFOptions } from 'html2pdf-ts';
+import * as htmlDocx from 'html-docx-js';
 
 export async function writeFile(filePath: string, data: string): Promise<void> {
   const dir = path.dirname(filePath);
@@ -51,6 +52,23 @@ export async function processHTMLFilesToPDF(outputDirectory:string,htmlDirectory
 
   await convertHtmlToPdf(path.join(outputDirectory,pdfName), htmlCollection.join("\r\n"));
   console.log(`PDF file created - ${path.join(outputDirectory,pdfName)}`);
+}
+
+export async function processHTMLFilesToWordDoc(outputDirectory:string,htmlDirectory:string, wordDocName:string){
+  const files = fs.readdirSync(htmlDirectory);
+  files.sort(function (a, b) {
+    return a.toLowerCase().localeCompare(b.toLowerCase());
+  });
+
+  const htmlCollection: string[] = [];
+  files.forEach(x=> {
+    if(x.includes(".html")) {
+      htmlCollection.push(readFile(path.join(htmlDirectory,x)));
+    }
+  });
+
+  await converHtmlToDoc(path.join(outputDirectory,wordDocName), htmlCollection.join("\r\n"));
+  console.log(`Word Doc file created - ${path.join(outputDirectory,wordDocName)}`);
 }
 
 export function deleteFile(filePath:string){
@@ -123,6 +141,11 @@ async function convertHtmlToPdf(filePath:string, content:string) {
   }
 
   await html2pdf.createPDF(content, options);
+}
+
+async function converHtmlToDoc(filePath:string, content:string){
+    const docxContent = htmlDocx.asBlob(content);
+    fs.writeFileSync(filePath, content);
 }
 
 export function fileExists(filePath:string):boolean{

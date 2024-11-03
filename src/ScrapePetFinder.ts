@@ -20,6 +20,7 @@ FileUtility.deleteFilesInDirectory(htmlDirectory);
 
 let petfindSearchPageUrl:string | undefined = undefined;
 let pdfName: string | undefined = undefined;
+let wordDocName: string | undefined = undefined;
 let chromiumExecutablePath: string;
 
 let minPage = 1;
@@ -35,11 +36,17 @@ export function initialize(config:Config, chromeExec:string, rootDirectory: stri
 
   petfindSearchPageUrl = config.PetFinderSearchPageUrl;
   pdfName = config.PDFFileName;
+  wordDocName = config.WodDocFileName;
   chromiumExecutablePath = chromeExec;
 
   if(pdfName == undefined || pdfName == null || pdfName == "") {
     throw Error("PDF File name is required.");
   }
+
+  if(wordDocName == undefined || wordDocName == null || wordDocName == "") {
+    throw Error("Word Doc File name is required.");
+  }
+
 
   console.log("PetFinder Scraper initialized.");
 
@@ -99,11 +106,15 @@ export function beginScraper(){
     await limit(() => BuildPetFlyer(petLinks[0])); //Remove after testing
     console.log('Pet Finder data extraction. Complete!');
 
-    console.log('Generating PDF file..');
-    if(pdfName != undefined) {
-      await FileUtility.processHTMLFilesToPDF(Constants.outputDirectory,htmlDirectory, pdfName);
-    }
+    console.log('Generating Word Doc file...');
+    const wordDocTask = FileUtility.processHTMLFilesToWordDoc(Constants.outputDirectory, htmlDirectory, wordDocName as string);
 
+    console.log('Generating PDF file...');
+    const pdfTask = FileUtility.processHTMLFilesToPDF(Constants.outputDirectory,htmlDirectory, pdfName as string);
+
+    await wordDocTask;
+    await pdfTask;
+    
     console.log('Cleaning up HTML meta data...');
     FileUtility.deleteFilesInDirectory(htmlDirectory);
 
