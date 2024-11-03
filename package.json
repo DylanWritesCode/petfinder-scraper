@@ -16,7 +16,7 @@
     "dev": "ts-node src/index.ts",
     "build": "tsc && npx ts-node scripts/download-chrome.js && cp template.html dist && cp config.json dist",
     "start": "npm run build && node dist/index.js",
-    "package": "npm run build && npx ts-node scripts/copy-required-files.ts && pkg . --out-path release --public && node scripts/download-chrome.js"
+    "package": "npm run build && npx ts-node scripts/copy-required-files.ts && npx pkg . --out-path release --public && node scripts/download-chrome.js"
   },
   "pkg": {
     "outputPath": "release",
@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.8.7",
-    "download-chromium": "^3.0.0"
+    "download-chromium": "^3.0.0",
+    "pkg": "^5.8.1"
   }
 }
