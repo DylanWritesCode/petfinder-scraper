@@ -12,12 +12,12 @@ $ npm install
 
 To initiate web scraping of PetFinder
 ```sh
-npm run scraper
+npm run start
 ```
 
-To convert html file collection, into a single A-Z sorted PDF file
+To package application into an executable/console application
 ```sh
-npm run generate-pdf
+npm run package
 ```
 
 
