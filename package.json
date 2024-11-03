@@ -1,6 +1,6 @@
 {
   "name": "petfinder-webscraper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Extracts pet bios from PetFinder and generates a PDF sorting them A-Z.",
   "main": "src/index.ts",
   "bin": "dist/index.js",
