@@ -5,5 +5,6 @@ export const Constants = {
     outputDirectory: "output",
     htmlDirectory: "html",
     htmlFile: "extracted-data.html",
-    templateFileName: "template.html"
+    templateFileName: "template.html",
+    mergedHtmlFile: "merged-html.html"
 }

@@ -105,6 +105,9 @@ export function beginScraper(){
   
     await limit(() => BuildPetFlyer(petLinks[0])); //Remove after testing
     console.log('Pet Finder data extraction. Complete!');
+    
+    console.log('Merging HTML Data...');
+    await FileUtility.mergeHtml(Constants.outputDirectory, htmlDirectory);
 
     console.log('Generating Word Doc file...');
     const wordDocTask = FileUtility.processHTMLFilesToWordDoc(Constants.outputDirectory, htmlDirectory, wordDocName as string);
@@ -114,7 +117,7 @@ export function beginScraper(){
 
     await wordDocTask;
     await pdfTask;
-    
+
     console.log('Cleaning up HTML meta data...');
     FileUtility.deleteFilesInDirectory(htmlDirectory);
 

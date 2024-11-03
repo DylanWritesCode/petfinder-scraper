@@ -4,6 +4,7 @@ import * as path from 'path';
 import { html2pdf } from 'html2pdf-ts';
 import { HTML2PDFOptions } from 'html2pdf-ts';
 import * as htmlDocx from 'html-docx-js';
+import { Constants } from '../constants';
 
 export async function writeFile(filePath: string, data: string): Promise<void> {
   const dir = path.dirname(filePath);
@@ -38,23 +39,13 @@ export function getTemplate(templatePath:string):string {
 }
 
 export async function processHTMLFilesToPDF(outputDirectory:string,htmlDirectory:string, pdfName:string){
-  const files = fs.readdirSync(htmlDirectory);
-  files.sort(function (a, b) {
-    return a.toLowerCase().localeCompare(b.toLowerCase());
-  });
-
-  const htmlCollection: string[] = [];
-  files.forEach(x=> {
-    if(x.includes(".html")) {
-      htmlCollection.push(readFile(path.join(htmlDirectory,x)));
-    }
-  });
-
-  await convertHtmlToPdf(path.join(outputDirectory,pdfName), htmlCollection.join("\r\n"));
+  const content = fs.readFileSync(path.join(outputDirectory,Constants.mergedHtmlFile)).toString();
+  
+  await convertHtmlToPdf(path.join(outputDirectory,pdfName), content);
   console.log(`PDF file created - ${path.join(outputDirectory,pdfName)}`);
 }
 
-export async function processHTMLFilesToWordDoc(outputDirectory:string,htmlDirectory:string, wordDocName:string){
+export async function mergeHtml(outputDirectory:string, htmlDirectory:string){
   const files = fs.readdirSync(htmlDirectory);
   files.sort(function (a, b) {
     return a.toLowerCase().localeCompare(b.toLowerCase());
@@ -67,7 +58,13 @@ export async function processHTMLFilesToWordDoc(outputDirectory:string,htmlDirec
     }
   });
 
-  await converHtmlToDoc(path.join(outputDirectory,wordDocName), htmlCollection.join("\r\n"));
+  writeFile(path.join(outputDirectory,Constants.mergedHtmlFile), htmlCollection.join("\r\n"));
+  console.log('Merged HTML file created.');
+}
+
+export async function processHTMLFilesToWordDoc(outputDirectory:string,htmlDirectory:string, wordDocName:string){
+  const content = fs.readFileSync(path.join(outputDirectory,Constants.mergedHtmlFile)).toString();
+  await converHtmlToDoc(path.join(outputDirectory,wordDocName), content);
   console.log(`Word Doc file created - ${path.join(outputDirectory,wordDocName)}`);
 }
 
