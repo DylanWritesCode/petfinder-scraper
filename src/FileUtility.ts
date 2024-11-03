@@ -16,13 +16,28 @@ export async function writeFile(filePath: string, data: string): Promise<void> {
   await fs.promises.writeFile(filePath, data);
 }
 
+export async function appendFile(filePath: string, data: string): Promise<void>{
+  const dir = path.dirname(filePath);
+  // Create directory if it doesn't exist
+
+  if (!fs.existsSync(dir)) {
+    await fs.promises.mkdir(dir, { recursive: true });
+  }
+
+  // Write file
+  if(!fs.existsSync(filePath)){
+    await fs.promises.writeFile(filePath, data);
+  } else {
+    await fs.promises.appendFile(filePath, `\r\n${data}`);
+  }
+}
+
 export function getTemplate():string {
   return fs.readFileSync("template.html").toString();
 }
 
-
-export async function processFilesToPDF(directory:string){
-  const files = fs.readdirSync(directory);
+export async function processHTMLFilesToPDF(outputDirectory:string,htmlDirectory:string, pdfName:string){
+  const files = fs.readdirSync(htmlDirectory);
   files.sort(function (a, b) {
     return a.toLowerCase().localeCompare(b.toLowerCase());
   });
@@ -30,13 +45,44 @@ export async function processFilesToPDF(directory:string){
   const htmlCollection: string[] = [];
   files.forEach(x=> {
     if(x.includes(".html")) {
-      htmlCollection.push(readFile(`${directory}\\${x}`));
+      htmlCollection.push(readFile(path.join(htmlDirectory,x)));
     }
   });
 
-  console.log("Generating Master PDF...");
-  await convertHtmlToPdf(`${directory}\\A-Z_SavingHopePetBios.pdf`, htmlCollection.join("\r\n"));
-  console.log("Generated Master PDF");
+  await convertHtmlToPdf(path.join(outputDirectory,pdfName), htmlCollection.join("\r\n"));
+  console.log(`PDF file created - ${path.join(outputDirectory,pdfName)}`);
+}
+
+export function deleteFile(filePath:string){
+  if(fs.existsSync(filePath)){
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      console.log('File deleted successfully');
+    });
+  }
+}
+
+export function deleteFilesInDirectory(dirPath:string) {
+  fs.readdir(dirPath, (err, files) => {
+    if (err) throw err;
+
+    for (const file of files) {
+      const filePath = path.join(dirPath, file);
+
+      fs.stat(filePath, (err, stats) => {
+        if (err) throw err;
+
+        if (stats.isFile()) {
+          fs.unlink(filePath, (err) => {
+            if (err) throw err;
+          });
+        }
+      });
+    }
+  });
 }
 
 async function convertHtmlToPdf(filePath:string, content:string) {
@@ -53,6 +99,10 @@ async function convertHtmlToPdf(filePath:string, content:string) {
   await html2pdf.createPDF(content, options);
 }
 
-function readFile(filePath:string):string {
+export function fileExists(filePath:string):boolean{
+  return fs.existsSync(filePath);
+}
+
+export function readFile(filePath:string):string {
   return fs.readFileSync(filePath).toString();
 }
