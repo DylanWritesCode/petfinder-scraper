@@ -1,4 +1,8 @@
 {
+  "name": "petfinder-webscraper",
+  "version": "1.0.0",
+  "description": "Extracts pet bios from PetFinder and generates a PDF sorting them A-Z.",
+  "main": "src/index.ts",
   "dependencies": {
     "@types/puppeteer": "^7.0.4",
     "html2pdf-ts": "^1.2.22",
@@ -8,8 +12,6 @@
     "puppeteer-core": "^23.6.1"
   },
   "scripts": {
-    "scraper": "ts-node src/utilities/ScrapePetFinder.ts",
-    "generate-pdf": "ts-node src/utilities/PDFbuilder.ts",
-    "dev": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts"
   }
 }

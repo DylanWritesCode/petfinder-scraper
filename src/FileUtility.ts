@@ -90,9 +90,9 @@ export function backupDataFile(dataFilePath:string, backupDirectoryPath:string, 
   if(fs.existsSync(backupDirectoryPath)){
     const backupFiles = fs.readdirSync(backupDirectoryPath);
     for(let i = 0; i < backupFiles.length; i++) {
-      const fileStat = fs.statSync(backupFiles[i]);
+      const fileStat = fs.statSync(path.join(backupDirectoryPath,backupFiles[i]));
       if(fileStat.birthtime.getDate() < (new Date().getDate() - fileRetentionDays)) {
-        fs.unlink(backupFiles[i], (err)=>{
+        fs.unlink(path.join(backupDirectoryPath,backupFiles[i]), (err)=>{
           if(err) console.error(err);
         });
       }
@@ -104,10 +104,8 @@ export function backupDataFile(dataFilePath:string, backupDirectoryPath:string, 
 
     const timestamp = Date.now(); // Get current timestamp in milliseconds
     const filename = `${path.parse(dataFilePath).name}_${timestamp}.json`; 
-    
+
     writeFile(path.join(backupDirectoryPath, filename), fileContent);
-  
-    console.log(`File created: ${filename}`);
   }
 }
 
