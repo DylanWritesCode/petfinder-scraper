@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
+    "resolveJsonModule": true,
     "target": "ES6",
     "module": "commonjs",
     "allowJs": true,
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "outDir": "dist"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*","config.json","template.html"],
   "exclude": ["node_modules"]
 }

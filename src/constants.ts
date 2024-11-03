@@ -4,5 +4,6 @@ export const Constants = {
     dataFile: "savedpets.json",
     outputDirectory: "output",
     htmlDirectory: "html",
-    htmlFile: "extracted-data.html"
+    htmlFile: "extracted-data.html",
+    templateFileName: "template.html"
 }

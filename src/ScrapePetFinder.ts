@@ -1,15 +1,18 @@
 import puppeteer, { Browser, Page } from 'puppeteer';
 import pLimit from 'p-limit';
-import * as FileUtility from '../FileUtility';
-import {Constants} from '../constants';
+import * as FileUtility from './utilities/FileUtility';
+import {Constants} from './constants';
 import {default as path} from 'path'
-import { Data } from '../interfaces/Data';
+import { Data } from './interfaces/Data';
+import { Config } from './interfaces/Config';
 
 let limit = pLimit(10);
 
-const dataFilePath = path.join(Constants.dataDirectory, Constants.dataFile);
-const htmlFilePath = path.join(Constants.outputDirectory, Constants.htmlFile);
-const htmlDirectory = path.join(Constants.outputDirectory,Constants.htmlDirectory);
+let rootDir = process.cwd();
+
+const dataFilePath = path.join(rootDir,Constants.dataDirectory, Constants.dataFile);
+const htmlFilePath = path.join(rootDir,Constants.outputDirectory, Constants.htmlFile);
+const htmlDirectory = path.join(rootDir,Constants.outputDirectory,Constants.htmlDirectory);
 
 //If exists lets delete the file.
 FileUtility.deleteFile(htmlFilePath);
@@ -17,6 +20,7 @@ FileUtility.deleteFilesInDirectory(htmlDirectory);
 
 let petfindSearchPageUrl:string | undefined = undefined;
 let pdfName: string | undefined = undefined;
+let chromiumExecutablePath: string;
 
 let minPage = 1;
 let maxPage = 1;
@@ -25,11 +29,13 @@ const petLinks:string[] = [];
 let processedLinks: Data[] = [];
 let browser:Browser | undefined = undefined;
 
-export function initialize(petFinderSearchUrl:string, pdfFileName:string, backupRetention:number, processLimit:number){
-  limit = pLimit(processLimit);
-  
-  petfindSearchPageUrl = petFinderSearchUrl;
-  pdfName = pdfFileName;
+export function initialize(config:Config, chromeExec:string, rootDirectory: string){
+  limit = pLimit(config.ProcessLimit);
+  rootDir = rootDirectory;
+
+  petfindSearchPageUrl = config.PetFinderSearchPageUrl;
+  pdfName = config.PDFFileName;
+  chromiumExecutablePath = chromeExec;
 
   if(pdfName == undefined || pdfName == null || pdfName == "") {
     throw Error("PDF File name is required.");
@@ -39,7 +45,7 @@ export function initialize(petFinderSearchUrl:string, pdfFileName:string, backup
 
   if(FileUtility.fileExists(dataFilePath)) {
     const backupDataFileDirectoryPath = path.join(Constants.dataDirectory,Constants.backupDataDirectory);
-    FileUtility.backupDataFile(dataFilePath, backupDataFileDirectoryPath, backupRetention)
+    FileUtility.backupDataFile(dataFilePath, backupDataFileDirectoryPath, config.BackupFileRetentionDays)
 
     console.log(`Loading saved data...`);
     processedLinks = JSON.parse(FileUtility.readFile(dataFilePath)) as Data[];
@@ -47,9 +53,11 @@ export function initialize(petFinderSearchUrl:string, pdfFileName:string, backup
   }
 }
 
+
 export function beginScraper(){
   (async () => {
-    browser = await puppeteer.launch({headless: true});
+    console.log(`Output Directory ${path.join(rootDir, Constants.outputDirectory)}`);
+    browser = await puppeteer.launch({headless: true, executablePath: chromiumExecutablePath});
     const page = await browser.newPage();
   
     if(petfindSearchPageUrl === undefined || petfindSearchPageUrl === null || petfindSearchPageUrl === ""){
@@ -183,7 +191,7 @@ async function BuildPetFlyer(url:string){
       throw(`ERROR: could not retrieve PetBio.`)
     }
     
-    let template = FileUtility.getTemplate();
+    let template = FileUtility.getTemplate(path.join(rootDir,Constants.templateFileName));
     template = template.replace("{{PetName}}", petNameData.trim());
     template = template.replace("{{PetBio}}", petBioData.replace(`Meet ${petNameData.trim()}!`, "").replace(`Meet ${petNameData.trim()}`,"").replace("<br>\n<br>", ""));
     template = template.replace("{{PetImage}}", petImageUrl);

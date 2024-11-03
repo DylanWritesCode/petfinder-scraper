@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Extracts pet bios from PetFinder and generates a PDF sorting them A-Z.",
   "main": "src/index.ts",
+  "bin": "dist/index.js",
   "dependencies": {
     "@types/puppeteer": "^7.0.4",
     "html2pdf-ts": "^1.2.22",
@@ -12,6 +13,23 @@
     "puppeteer-core": "^23.6.1"
   },
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "dev": "ts-node src/index.ts",
+    "start": "tsc && cp template.html dist && node dist/index.js",
+    "package": "tsc && ts-node scripts/copy-required-files.ts && pkg . --out-path release --public && node scripts/download-chrome.js"
+  },
+  "pkg": {
+    "outputPath": "release",
+    "assets": [
+      "dist/config.json",
+      "dist/chromium/**/*",
+      "dist/template.html"
+    ],
+    "targets": [
+      "latest-macos-arm64"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^22.8.7",
+    "download-chromium": "^3.0.0"
   }
 }

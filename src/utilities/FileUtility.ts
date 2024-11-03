@@ -32,8 +32,8 @@ export async function appendFile(filePath: string, data: string): Promise<void>{
   }
 }
 
-export function getTemplate():string {
-  return fs.readFileSync("template.html").toString();
+export function getTemplate(templatePath:string):string {
+  return fs.readFileSync(templatePath).toString();
 }
 
 export async function processHTMLFilesToPDF(outputDirectory:string,htmlDirectory:string, pdfName:string){
@@ -66,6 +66,8 @@ export function deleteFile(filePath:string){
 }
 
 export function deleteFilesInDirectory(dirPath:string) {
+  if(!fs.existsSync(dirPath)) return;
+  
   fs.readdir(dirPath, (err, files) => {
     if (err) throw err;
 

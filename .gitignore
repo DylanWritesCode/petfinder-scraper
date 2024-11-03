@@ -42,3 +42,4 @@ Thumbs.db
 #APP generated directories
 output/
 data/
+release/
