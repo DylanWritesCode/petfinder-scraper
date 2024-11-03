@@ -23,7 +23,7 @@ jobs:
 
       - name: Build and Package
         run: npm run package  # Replace this with your actual build command
-        
+
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
@@ -36,10 +36,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Automatically provided by GitHub Actions
 
-      - name: Upload Release Assets
+      - name: Upload Assets to Existing Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref }}
+          tag_name: ${{ github.ref }}  # Use the tag that triggered the workflow
           files: release/**  # Adjust to match the location of your generated files
+          draft: false  # Set to true if the release is a draft
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Automatically provided by GitHub Actions
