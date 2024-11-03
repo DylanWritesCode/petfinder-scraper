@@ -28,22 +28,20 @@ jobs:
         id: get_version
         run: echo "VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
 
-      - name: Create Release
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ env.VERSION }}  # Use the version from package.json
-          release_name: Release ${{ env.VERSION }}  # Name for the release
-          body: |
-            ## Release Notes
-            - Automated release based on version ${{ env.VERSION }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Automatically provided by GitHub Actions
+      - name: Zip files in release folder
+        run: |
+          cd release
+          zip -r ../release-${{ env.VERSION }}.zip .
 
-      - name: Upload Release Assets
+      - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ env.VERSION }}  # Use the same version for uploading
-          files: release/**  # Adjust to match the location of your generated files
+          tag_name: ${{ env.VERSION }}
+          release_name: Release ${{ env.VERSION }}
+          body: |
+            Changes in this release:
+            - List changes here (you can automate this part too)
+          files: |
+            release-${{ env.VERSION }}.zip
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Automatically provided by GitHub Actions
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
