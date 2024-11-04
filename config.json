@@ -1,7 +1,6 @@
 {
     "PetFinderSearchPageUrl":"https://www.petfinder.com/search/dogs-for-adoption/?include_transportable=0&shelter_id%5B0%5D=TX2337&sort%5B0%5D=recently_added",
     "PDFFileName": "A-Z_PetFinderPetBios.pdf",
-    "WodDocFileName": "A-Z_PetFinderPetBios.docx",
     "BackupFileRetentionDays": 3,
     "ProcessLimit":10
 }

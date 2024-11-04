@@ -5,6 +5,7 @@ import {Constants} from './constants';
 import {default as path} from 'path'
 import { Data } from './interfaces/Data';
 import { Config } from './interfaces/Config';
+import { PetProfile } from './interfaces/PetProfile';
 
 let limit = pLimit(10);
 
@@ -13,6 +14,8 @@ let rootDir = process.cwd();
 const dataFilePath = path.join(rootDir,Constants.dataDirectory, Constants.dataFile);
 const htmlFilePath = path.join(rootDir,Constants.outputDirectory, Constants.htmlFile);
 const htmlDirectory = path.join(rootDir,Constants.outputDirectory,Constants.htmlDirectory);
+const outPutDirectory = path.join(rootDir, Constants.outputDirectory);
+const petProfileDataPath = path.join(rootDir, Constants.outputDirectory, Constants.petProfileDataFile);
 
 //If exists lets delete the file.
 FileUtility.deleteFile(htmlFilePath);
@@ -20,7 +23,6 @@ FileUtility.deleteFilesInDirectory(htmlDirectory);
 
 let petfindSearchPageUrl:string | undefined = undefined;
 let pdfName: string | undefined = undefined;
-let wordDocName: string | undefined = undefined;
 let chromiumExecutablePath: string;
 
 let minPage = 1;
@@ -36,23 +38,17 @@ export function initialize(config:Config, chromeExec:string, rootDirectory: stri
 
   petfindSearchPageUrl = config.PetFinderSearchPageUrl;
   pdfName = config.PDFFileName;
-  wordDocName = config.WodDocFileName;
   chromiumExecutablePath = chromeExec;
 
   if(pdfName == undefined || pdfName == null || pdfName == "") {
     throw Error("PDF File name is required.");
   }
 
-  if(wordDocName == undefined || wordDocName == null || wordDocName == "") {
-    throw Error("Word Doc File name is required.");
-  }
-
-
   console.log("PetFinder Scraper initialized.");
 
   if(FileUtility.fileExists(dataFilePath)) {
     const backupDataFileDirectoryPath = path.join(Constants.dataDirectory,Constants.backupDataDirectory);
-    FileUtility.backupDataFile(dataFilePath, backupDataFileDirectoryPath, config.BackupFileRetentionDays)
+    FileUtility.backupDataFile(dataFilePath, backupDataFileDirectoryPath, config.BackupFileRetentionDays);
 
     console.log(`Loading saved data...`);
     processedLinks = JSON.parse(FileUtility.readFile(dataFilePath)) as Data[];
@@ -100,23 +96,17 @@ export function beginScraper(){
     for (let i = 0; i < petLinks.length; i++){
       petFlyerBuildQueue.push(limit(()=> BuildPetFlyer(petLinks[i])));
     }
-  
+
     await Promise.all(petFlyerBuildQueue);
   
     await limit(() => BuildPetFlyer(petLinks[0])); //Remove after testing
     console.log('Pet Finder data extraction. Complete!');
     
-    console.log('Merging HTML Data...');
-    await FileUtility.mergeHtml(Constants.outputDirectory, htmlDirectory);
-
-    console.log('Generating Word Doc file...');
-    const wordDocTask = FileUtility.processHTMLFilesToWordDoc(Constants.outputDirectory, htmlDirectory, wordDocName as string);
+    console.log('Creating HTML file...');
+    await FileUtility.createHtml(rootDir,Constants.outputDirectory, extractedData);
 
     console.log('Generating PDF file...');
-    const pdfTask = FileUtility.processHTMLFilesToPDF(Constants.outputDirectory,htmlDirectory, pdfName as string);
-
-    await wordDocTask;
-    await pdfTask;
+    await FileUtility.processHTMLFilesToPDF(Constants.outputDirectory, pdfName as string);
 
     console.log('Cleaning up HTML meta data...');
     FileUtility.deleteFilesInDirectory(htmlDirectory);
@@ -162,6 +152,7 @@ async function GetAllPetLinks(index:number){
   }
 }
 
+const extractedData: PetProfile[] = [];
 async function BuildPetFlyer(url:string){
   if(browser == undefined){
     console.error("ERROR: Could not query pet bio page. Browser is undefined.");
@@ -187,7 +178,6 @@ async function BuildPetFlyer(url:string){
       return Promise.resolve(document.querySelector('img[pfdc-pet-carousel-slide]')?.getAttribute("src"));
     });
 
-
     const petNameData = await petNamePromise;
     const petBioData = await petBioPromise;
 
@@ -205,15 +195,23 @@ async function BuildPetFlyer(url:string){
       throw(`ERROR: could not retrieve PetBio.`)
     }
     
-    let template = FileUtility.getTemplate(path.join(rootDir,Constants.templateFileName));
-    template = template.replace("{{PetName}}", petNameData.trim());
-    template = template.replace("{{PetBio}}", petBioData.replace(`Meet ${petNameData.trim()}!`, "").replace(`Meet ${petNameData.trim()}`,"").replace("<br>\n<br>", ""));
-    template = template.replace("{{PetImage}}", petImageUrl);
+    //let template = FileUtility.getTemplate(path.join(rootDir,Constants.templateFileName));
+    //template = template.replace("{{PetName}}", petNameData.trim());
+    //template = template.replace("{{PetBio}}", petBioData.replace(`Meet ${petNameData.trim()}!`, "").replace(`Meet ${petNameData.trim()}`,"").replace("<br>\n<br>", ""));
+    //template = template.replace("{{PetImage}}", petImageUrl);
 
-    FileUtility.writeFile(`${htmlDirectory}//${petNameData.trim()}.html`, template);
+    const newPetProfile:PetProfile = {
+      Url: url,
+      PetName: petNameData.trim(),
+      PetBio: petBioData.replace(`Meet ${petNameData.trim()}!`, "").replace(`Meet ${petNameData.trim()}`,"").replace("<br>\n<br>", ""),
+      ImageUrl: petImageUrl
+    }
 
-    console.log(`Extracted bio for pet '${petNameData.trim()}'`);
-    
+    extractedData.push(newPetProfile);
+    FileUtility.writeFile(petProfileDataPath, JSON.stringify(extractedData, null, 4));
+
+    console.log(`Extracted bio data for pet '${petNameData.trim()}'`);
+
     //update processed url list
     const processedUrl: Data =  {
       PetName: petNameData.trim(),
