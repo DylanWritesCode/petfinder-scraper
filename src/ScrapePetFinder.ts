@@ -8,7 +8,6 @@ import { Config } from './interfaces/Config';
 import { PetProfile } from './interfaces/PetProfile';
 
 let limit = pLimit(10);
-
 let rootDir = process.cwd();
 
 const dataFilePath = path.join(rootDir,Constants.dataDirectory, Constants.dataFile);
