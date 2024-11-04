@@ -13,13 +13,11 @@ let rootDir = process.cwd();
 
 const dataFilePath = path.join(rootDir,Constants.dataDirectory, Constants.dataFile);
 const htmlFilePath = path.join(rootDir,Constants.outputDirectory, Constants.htmlFile);
-const htmlDirectory = path.join(rootDir,Constants.outputDirectory,Constants.htmlDirectory);
 const outPutDirectory = path.join(rootDir, Constants.outputDirectory);
 const petProfileDataPath = path.join(rootDir, Constants.outputDirectory, Constants.petProfileDataFile);
 
 //If exists lets delete the file.
 FileUtility.deleteFile(htmlFilePath);
-FileUtility.deleteFilesInDirectory(htmlDirectory);
 
 let petfindSearchPageUrl:string | undefined = undefined;
 let pdfName: string | undefined = undefined;
@@ -107,9 +105,6 @@ export function beginScraper(){
 
     console.log('Generating PDF file...');
     await FileUtility.processHTMLFilesToPDF(Constants.outputDirectory, pdfName as string);
-
-    console.log('Cleaning up HTML meta data...');
-    FileUtility.deleteFilesInDirectory(htmlDirectory);
 
     await browser.close();
     console.log("Process Complete! You can now close this application.");

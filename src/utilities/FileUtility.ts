@@ -79,27 +79,6 @@ export function deleteFile(filePath:string){
   }
 }
 
-export function deleteFilesInDirectory(dirPath:string) {
-  if(!fs.existsSync(dirPath)) return;
-  
-  fs.readdir(dirPath, (err, files) => {
-    if (err) throw err;
-
-    for (const file of files) {
-      const filePath = path.join(dirPath, file);
-
-      fs.stat(filePath, (err, stats) => {
-        if (err) throw err;
-
-        if (stats.isFile()) {
-          fs.unlink(filePath, (err) => {
-            if (err) throw err;
-          });
-        }
-      });
-    }
-  });
-}
 export function backupDataFile(dataFilePath:string, backupDirectoryPath:string, fileRetentionDays:number){
 
   //Delete OLD Backup Files

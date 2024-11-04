@@ -3,7 +3,6 @@ export const Constants = {
     backupDataDirectory:"backup",
     dataFile: "savedpets.json",
     outputDirectory: "output",
-    htmlDirectory: "html",
     htmlFile: "extracted-data.html",
     templateFileName: "template.html",
     mergedHtmlFile: "A-Z_PetBios.html",
