@@ -5,6 +5,7 @@ import { html2pdf } from 'html2pdf-ts';
 import { HTML2PDFOptions } from 'html2pdf-ts';
 import * as htmlDocx from 'html-docx-js';
 import { Constants } from '../constants';
+import { PetProfile } from '../interfaces/PetProfile';
 
 export async function writeFile(filePath: string, data: string): Promise<void> {
   const dir = path.dirname(filePath);
@@ -38,34 +39,32 @@ export function getTemplate(templatePath:string):string {
   return fs.readFileSync(templatePath).toString();
 }
 
-export async function processHTMLFilesToPDF(outputDirectory:string,htmlDirectory:string, pdfName:string){
-  const content = fs.readFileSync(path.join(outputDirectory,Constants.mergedHtmlFile)).toString();
-  
+const htmlCollection: string[] = [];
+export async function processHTMLFilesToPDF(outputDirectory:string,pdfName:string){
+  const content = htmlCollection.join("\r\n");
   await convertHtmlToPdf(path.join(outputDirectory,pdfName), content);
   console.log(`PDF file created - ${path.join(outputDirectory,pdfName)}`);
 }
 
-export async function mergeHtml(outputDirectory:string, htmlDirectory:string){
-  const files = fs.readdirSync(htmlDirectory);
-  files.sort(function (a, b) {
-    return a.toLowerCase().localeCompare(b.toLowerCase());
+export async function createHtml(rootDir:string, outputDirectory:string, petProfileData:PetProfile[]){
+  const sortedPetprofiles = petProfileData.sort(function (a, b) {
+    return a.PetName.toLowerCase().localeCompare(b.PetName.toLowerCase());
   });
 
-  const htmlCollection: string[] = [];
-  files.forEach(x=> {
-    if(x.includes(".html")) {
-      htmlCollection.push(readFile(path.join(htmlDirectory,x)));
-    }
-  });
+  const template = getTemplate(path.join(rootDir,Constants.templateFileName));
+  for(let i = 0; i < sortedPetprofiles.length; i++) {
+    const petProfile = sortedPetprofiles[i];
+    let profileHtml = template;
+
+    profileHtml = profileHtml.replace("{{PetName}}", petProfile.PetName);
+    profileHtml = profileHtml.replace("{{PetBio}}", petProfile.PetBio);
+    profileHtml = profileHtml.replace("{{PetImage}}", petProfile.ImageUrl);
+
+    htmlCollection.push(profileHtml);
+  }
 
   writeFile(path.join(outputDirectory,Constants.mergedHtmlFile), htmlCollection.join("\r\n"));
-  console.log('Merged HTML file created.');
-}
-
-export async function processHTMLFilesToWordDoc(outputDirectory:string,htmlDirectory:string, wordDocName:string){
-  const content = fs.readFileSync(path.join(outputDirectory,Constants.mergedHtmlFile)).toString();
-  await converHtmlToDoc(path.join(outputDirectory,wordDocName), content);
-  console.log(`Word Doc file created - ${path.join(outputDirectory,wordDocName)}`);
+  console.log('HTML file created.');
 }
 
 export function deleteFile(filePath:string){
@@ -139,12 +138,6 @@ async function convertHtmlToPdf(filePath:string, content:string) {
 
   await html2pdf.createPDF(content, options);
 }
-
-async function converHtmlToDoc(filePath:string, content:string){
-    const docxContent = htmlDocx.asBlob(content);
-    fs.writeFileSync(filePath, content);
-}
-
 export function fileExists(filePath:string):boolean{
   return fs.existsSync(filePath);
 }
