@@ -16,6 +16,7 @@
     "puppeteer-extra-plugin-stealth": "^2.11.2"
   },
   "scripts": {
+    "regen-pdf": "ts-node scripts/generatePDF.ts",
     "dev": "ts-node src/index.ts",
     "build": "tsc && npx ts-node scripts/download-chrome.js && cp template.html dist && cp config.json dist",
     "start": "npm run build && node dist/index.js",
