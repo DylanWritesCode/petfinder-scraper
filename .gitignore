@@ -44,3 +44,4 @@ Thumbs.db
 output/
 data/
 release/
+.env

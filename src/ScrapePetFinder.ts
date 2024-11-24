@@ -8,6 +8,7 @@ import { Config } from './interfaces/Config';
 import { PetProfile } from './interfaces/PetProfile';
 import * as extra from 'puppeteer-extra';
 import {default as Stealth}from  'puppeteer-extra-plugin-stealth'
+import { SendEmailWithAttachment } from './utilities/EmailUtility';
 
 let limit = pLimit(10);
 let rootDir = process.cwd();
@@ -125,10 +126,21 @@ export function beginScraper(){
 
     console.log('Generating PDF file...');
     await FileUtility.processHTMLFilesToPDF(Constants.outputDirectory, pdfName as string);
+    
+    await delay(10000);
+    await SendEmailWithAttachment(process.env.EMAIL_TO as string, "Auto-Generated Weekly Pet Bios", `Attached is pet bios generated on ${new Date().toDateString()}`, "petbios", path.join(Constants.outputDirectory, pdfName as string));
 
     await browser.close();
     console.log("Process Complete! You can now close this application.");
+
+    await delay(10000);
+    process.exit();
+    
   })();
+}
+
+function delay(ms: number) {
+  return new Promise( resolve => setTimeout(resolve, ms) );
 }
 
 async function GetAllPetLinks(index:number){
