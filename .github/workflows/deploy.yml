@@ -1,8 +1,5 @@
 name: Deploy to Raspberry Pi
-on:
-  push:
-    branches: [ main ]
-    
+
 jobs:
   build:
     runs-on: self-hosted
@@ -15,11 +12,14 @@ jobs:
     runs-on: self-hosted
     needs: build
     steps:
-      - name: Kill gunicorn
-        run: pkill gunicorn || true
+      - name: Stop App
+        run: systemctl stop petfinder-scraper
         
-      - name: Run gunicorn
+      - name: Copy New Release
         run: |
           source flask-env/bin/activate
           RUNNER_TRACKING_ID=""
           gunicorn -w 1 -b 0.0.0.0:4000 app:app -D --log-file=gunicorn.log
+
+      - name: Start App
+        run: systemctl start petfinder-scraper
