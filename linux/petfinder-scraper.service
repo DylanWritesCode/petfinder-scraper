@@ -1,0 +1,15 @@
+[Unit]
+Description="Petfinder Scraper"
+
+[Service]
+ExecStart=/usr/bin/node server.js
+WorkingDirectory=/project/absolute/path
+Restart=always
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=MyApp
+Environment=NODE_ENV=production PORT=8080
+
+[Install]
+WantedBy=multi-user.target
