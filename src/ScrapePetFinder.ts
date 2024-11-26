@@ -68,7 +68,7 @@ export function beginScraper(){
       ];
 
       let options = {
-        headless: false,
+        headless: true,
         ignoreHTTPSErrors: true,
         args: args,
         defaultViewport: { width: 1366, height: 768 },
