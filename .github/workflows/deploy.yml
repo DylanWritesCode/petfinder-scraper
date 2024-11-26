@@ -1,0 +1,14 @@
+name: Deploy to Raspberry Pi
+
+on:
+  push:
+    branches: [deploy]
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+      - name: Checkout and Install Dependencies
+        run: |
+          npm i
