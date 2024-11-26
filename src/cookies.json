@@ -1,0 +1,269 @@
+[
+    {
+      "name": "_cc_id",
+      "value": "1c77e0dca2895a657b705d69771b75dd",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1755017349,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbc",
+      "value": "fb.1.1730406593664.IwY2xjawGQyA9leHRuA2FlbQIxMAABHb3QIXLzo3OMRls-gTPAc2ljIx0FX1fqbybG8qsn_01qlYQjLRLF0yOXfw_aem_44CMc2mP9UA-G86M6DZnzw",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1739471222,
+      "httpOnly": false,
+      "secure": false
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1730406593670.113457409683368398",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1739471222,
+      "httpOnly": false,
+      "secure": false
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.918966753.1730406594",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1766255222.430026,
+      "httpOnly": false,
+      "secure": false
+    },
+    {
+      "name": "_cls_v",
+      "value": "bc1e4522-70d9-450e-add9-31f0df202705",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1765025477.034091,
+      "httpOnly": false,
+      "secure": true
+    },
+    {
+      "name": "seerid",
+      "value": "eb4e4cd1-3e20-4e4c-afb0-c688893c0f1c",
+      "domain": ".www.petfinder.com",
+      "path": "/",
+      "expires": 1766255223.11949,
+      "httpOnly": false,
+      "secure": false
+    },
+    {
+      "name": "G_ENABLED_IDPS",
+      "value": "google",
+      "domain": ".www.petfinder.com",
+      "path": "/",
+      "expires": 1766249348.851971,
+      "httpOnly": false,
+      "secure": false
+    },
+    {
+      "name": "optimizelyEndUserId",
+      "value": "oeu1730407518558r0.20758051013388945",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1747243885,
+      "httpOnly": false,
+      "secure": false
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.843253300.1730465477",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1738241477,
+      "httpOnly": false,
+      "secure": false
+    },
+    {
+      "name": "__qca",
+      "value": "P0-2056798515-1730465477029",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1764334277,
+      "httpOnly": false,
+      "secure": false
+    },
+    {
+      "name": "OptanonAlertBoxClosed",
+      "value": "2024-11-01T13:31:32.862Z",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1762003892,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "PFSESSION",
+      "value": "adfb4986d29132e67049222a3eb48b93",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true
+    },
+    {
+      "name": "seerses",
+      "value": "e",
+      "domain": ".www.petfinder.com",
+      "path": "/",
+      "expires": 1731697022,
+      "httpOnly": false,
+      "secure": false
+    },
+    {
+      "name": "panoramaId_expiry",
+      "value": "1732294148789",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1732294149,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "panoramaId",
+      "value": "3b6bbce1aed100737279c063241a4945a70279855c4bb7398badc6ff5e33d886",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1732294149,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "panoramaIdType",
+      "value": "panoIndiv",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1732294149,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cls_s",
+      "value": "5e60f5d7-a678-4d41-83e2-8727555aee77:1",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true
+    },
+    {
+      "name": "ak_bmsc",
+      "value": "50AD1468DA2F604B024D92AF47D04E35~000000000000000000000000000000~YAAQt3ZAF/PPxB+TAQAALYC6MBn4yUKdnw3XiaCjm01odr1Qqw6lYVtKf+S/AsQhJQfU7dlQGyDvUXgLWbp9Athv1ZGQ4baPi0QYoL5EmJlFeyVtJQPSg5nJ3awTJsUOKzvqsDNp9ZynLDQO/PsVTpWEn60KRHN2sVTMinFLyIUsvv4PtnHPYX3uzBcjP59y70cj7JBSkAmtl/bVxugozk8jLbgt/30WJ2rNbH/y122z17Zfcud0fpVyiaGIhVz8vbANvgyYKAwYa1r4lbRtgBeRQGoqDfeWmyQ6ifyHLvDRyGQG/j/TbtXBtR51lX2Utx2D8iiQb8K1vL9WJn5B/SKH+zcJScWlE1Ls6JounGc6M1A3WoU/kuEFigI2SgkVit6m2heuiD8KynGBGxFlgjyIAwmtfEZXtJ1s/syOYvje2N5AIEzjV1NUFLRcb2JaZT0o",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1731696547.469302,
+      "httpOnly": false,
+      "secure": false
+    },
+    {
+      "name": "cto_bundle",
+      "value": "dVp51V9hamhWSndISmsya2ZGSzZYcjc5TTBzT2FrOTdaTCUyRjBsNSUyRmt2UUU2SVR5QzhsNXVLMEVkT2VodWZMSDA3NVg5bGExMm1MTSUyQnVXZ1JTdHkzeGtzY3FCJTJCT0R0JTJGdkRxTCUyRmdxZUhCaVJieW50VzRCUk5qaDZmUFNGRFpHWFBENUdSUDN2bnl6NkVSbFVZSnlxajlwd1FydXclM0QlM0Q",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1765385349,
+      "httpOnly": false,
+      "secure": false
+    },
+    {
+      "name": "__gads",
+      "value": "ID=8de8668f74a63b4c:T=1730406592:RT=1731695220:S=ALNI_MaSeK4XTbHEAiwsjWaTSgcFSXxa1A",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1764102592,
+      "httpOnly": false,
+      "secure": true
+    },
+    {
+      "name": "__gpi",
+      "value": "UID=00000f53644f620e:T=1730406592:RT=1731695220:S=ALNI_MbrlYDnX2teKLL8GSk2qf57zrQMWQ",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1764102592,
+      "httpOnly": false,
+      "secure": true
+    },
+    {
+      "name": "__eoi",
+      "value": "ID=f76e1eeba03a3214:T=1730406592:RT=1731695220:S=AA-AfjbcD0rw-HaDmyPo5btu4PgW",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1745958592,
+      "httpOnly": false,
+      "secure": true
+    },
+    {
+      "name": "recently_viewed_pets",
+      "value": "%5B73948296%2C73776095%2C62960015%2C73099632%2C72591339%2C73715528%2C53136300%2C53136299%2C73233801%2C58888801%2C73099783%2C73746400%2C73776098%2C73746528%2C59063880%2C73745202%2C73746190%2C73746196%2C73762747%5D",
+      "domain": "www.petfinder.com",
+      "path": "/",
+      "expires": 1734287221.206597,
+      "httpOnly": false,
+      "secure": false
+    },
+    {
+      "name": "last_pet_search",
+      "value": "https%3A%2F%2Fwww.petfinder.com%2Fsearch%2Fdogs-for-adoption%2F%3Finclude_transportable%3D0%26shelter_id%255B0%255D%3DTX2337%26sort%255B0%255D%3Drecently_added%26o%3D3",
+      "domain": "www.petfinder.com",
+      "path": "/",
+      "expires": 1734287221.206667,
+      "httpOnly": false,
+      "secure": false
+    },
+    {
+      "name": "impressions",
+      "value": "18",
+      "domain": "www.petfinder.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false
+    },
+    {
+      "name": "OptanonConsent",
+      "value": "isGpcEnabled=0&datestamp=Fri+Nov+15+2024+12%3A27%3A01+GMT-0600+(Central+Standard+Time)&version=202409.2.0&browserGpcFlag=0&isIABGlobal=false&hosts=&landingPath=NotLandingPage&groups=C0001%3A1%2CC0003%3A1%2CBG135%3A1%2CC0002%3A1%2CC0004%3A1&AwaitingReconsent=false&geolocation=US%3BTX",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1763231221,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_LWVJC60CMJ",
+      "value": "GS1.1.1731689349.9.1.1731695222.0.0.0",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1766255222.429713,
+      "httpOnly": false,
+      "secure": false
+    },
+    {
+      "name": "_ga_5H1R91DP2Q",
+      "value": "GS1.1.1731689349.9.1.1731695288.0.0.0",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1766255288.496709,
+      "httpOnly": false,
+      "secure": false
+    },
+    {
+      "name": "bm_sv",
+      "value": "ECEBF79C8DFC1AB99B3BF41FB2F32A1E~YAAQt3ZAF9awyB+TAQAAhSgVMRnYoVeHQsr3mYLT3J2W7YNY+rGofFt+4AKtMQuSICY8hd5DvsVBXzmGqbmlkewPLgksLHVM0XmY1h5IeJucuSwi4a+fasjlWzdBDJ4xm0tgiM3zbJ0KolFFpcINJjU2sDMA4QYlvVY/ELqOYIC2Pr5ErNCo1CgF12kegc70NkNk3Xh4UYxqysU6yz3Yx+3UrNJcIlMlb1NxUYxs/tt5BVwrSugAJW0lwU2cdSWWGGHS3g==~1",
+      "domain": ".petfinder.com",
+      "path": "/",
+      "expires": 1731696548.469487,
+      "httpOnly": false,
+      "secure": false
+    }
+  ]
