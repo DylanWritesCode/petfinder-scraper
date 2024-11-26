@@ -1,5 +1,5 @@
 import puppeteer, { Browser, Page } from 'puppeteer';
-import pLimit from 'p-limit';
+import pLimit = require('p-limit');
 import * as FileUtility from './utilities/FileUtility';
 import {Constants} from './constants';
 import {default as path} from 'path'
@@ -7,7 +7,7 @@ import { Data } from './interfaces/Data';
 import { Config } from './interfaces/Config';
 import { PetProfile } from './interfaces/PetProfile';
 import * as extra from 'puppeteer-extra';
-import {default as Stealth}from  'puppeteer-extra-plugin-stealth'
+import {default as Stealth}from  'puppeteer-extra-plugin-stealth';
 import { SendEmailWithAttachment } from './utilities/EmailUtility';
 
 let limit = pLimit(10);
