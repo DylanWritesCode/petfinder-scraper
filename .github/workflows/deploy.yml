@@ -19,10 +19,10 @@ jobs:
         
       - name: Set up environment variables
         run: |
-          echo "EMAIL_USER=${{ secrets.EMAIL_USER }}" >> .env
-          echo "EMAIL_KEY=${{ secrets.EMAIL_KEY }}" >> .env
-          echo "EMAIL_TO=${{ secrets.EMAIL_TO }}" >> .env
+          echo "EMAIL_USER=\"${{ secrets.EMAIL_USER }}\"" >> .env
+          echo "EMAIL_KEY=\"${{ secrets.EMAIL_KEY }}\"" >> .env
+          echo "EMAIL_TO=\"${{ secrets.EMAIL_TO }}\"" >> .env
           
-      - name: Move files
+      - name: Copy files
         run: |
-          mv ~/actions-runner/_work/petfinder-scraper/petfinder-scraper ~/petfinder-scraper
+          cp ~/actions-runner/_work/petfinder-scraper/petfinder-scraper ~/petfinder-scraper
