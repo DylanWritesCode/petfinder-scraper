@@ -1,4 +1,4 @@
-import puppeteer, { Browser, Page } from 'puppeteer';
+import puppeteer, { Browser, executablePath, Page } from 'puppeteer';
 import pLimit = require('p-limit');
 import * as FileUtility from './utilities/FileUtility';
 import {Constants} from './constants';
@@ -72,6 +72,7 @@ export function beginScraper(){
         ignoreHTTPSErrors: true,
         args: args,
         defaultViewport: { width: 1366, height: 768 },
+        executablePath: chromiumExecutablePath
       };
     
 

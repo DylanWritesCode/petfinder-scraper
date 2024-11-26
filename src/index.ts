@@ -11,15 +11,19 @@ dotenv.config();
 declare var process : {
     cwd(): string;
     pkg: any,
-    argv: string[]
+    argv: string[],
+    env: any
 }
-
 const isPkg = typeof process.pkg !== 'undefined';
-const chromiumExecutablePath = isPkg ? puppeteer.executablePath().replace(
+let chromiumExecutablePath = isPkg ? puppeteer.executablePath().replace(
     /^.*?\\node_modules\\puppeteer\\\.local-chromium/,
     'chromium' // Replace with your desired folder name
   )
 : puppeteer.executablePath();
+
+if(process.env.CHROME_PATH !== undefined && process.env.CHROME_PATH !== null && process.env.CHROME_PATH.length > 0) {
+    chromiumExecutablePath = process.env.CHROME_PATH;
+}
 
 const parentDir = process.cwd();
 if(isPkg && !fs.existsSync(path.join(parentDir,"chromium"))) {
