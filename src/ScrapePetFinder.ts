@@ -6,6 +6,9 @@ import {default as path} from 'path'
 import { Data } from './interfaces/Data';
 import { Config } from './interfaces/Config';
 import { PetProfile } from './interfaces/PetProfile';
+import * as extra from 'puppeteer-extra';
+import {default as Stealth}from  'puppeteer-extra-plugin-stealth'
+import { SendEmailWithAttachment } from './utilities/EmailUtility';
 
 let limit = pLimit(10);
 let rootDir = process.cwd();
@@ -57,7 +60,26 @@ export function initialize(config:Config, chromeExec:string, rootDirectory: stri
 export function beginScraper(){
   (async () => {
     console.log(`Output Directory ${path.join(rootDir, Constants.outputDirectory)}`);
-    browser = await puppeteer.launch({headless: true, executablePath: chromiumExecutablePath});
+    //browser = await puppeteer.launch({headless: false, executablePath: chromiumExecutablePath});
+
+    const args = [
+      '--no-sandbox',
+      '--disable-setuid-sandbox'
+      ];
+
+      let options = {
+        headless: false,
+        ignoreHTTPSErrors: true,
+        args: args,
+        defaultViewport: { width: 1366, height: 768 },
+      };
+    
+
+    browser = await extra.default.launch(options);
+    extra.default.use(Stealth({
+      enabledEvasions: new Set(["chrome.app", "chrome.csi", "defaultArgs", "navigator.plugins"])
+      }));
+
     const page = await browser.newPage();
   
     if(petfindSearchPageUrl === undefined || petfindSearchPageUrl === null || petfindSearchPageUrl === ""){
@@ -67,7 +89,7 @@ export function beginScraper(){
     console.log(`Accessing PetFinder URL: ${petfindSearchPageUrl}...`);
     await page.goto(petfindSearchPageUrl);
     await page.waitForNetworkIdle();
-  
+    
     const pageSelector = await page.evaluate(()=>{
       return Promise.resolve(document.querySelector('div[page-select-open-btn]')?.getAttribute("aria-label"));
     });
@@ -104,10 +126,21 @@ export function beginScraper(){
 
     console.log('Generating PDF file...');
     await FileUtility.processHTMLFilesToPDF(Constants.outputDirectory, pdfName as string);
+    
+    await delay(10000);
+    await SendEmailWithAttachment(process.env.EMAIL_TO as string, "Auto-Generated Weekly Pet Bios", `Attached is pet bios generated on ${new Date().toDateString()}`, "petbios", path.join(Constants.outputDirectory, pdfName as string));
 
     await browser.close();
     console.log("Process Complete! You can now close this application.");
+
+    await delay(10000);
+    process.exit();
+    
   })();
+}
+
+function delay(ms: number) {
+  return new Promise( resolve => setTimeout(resolve, ms) );
 }
 
 async function GetAllPetLinks(index:number){
@@ -117,13 +150,20 @@ async function GetAllPetLinks(index:number){
   }
 
   const page = await browser.newPage();
-
+  
   try{
 
     await page.goto(`${petfindSearchPageUrl}&page=${index}`);
-    
+
+
+    await page.waitForNetworkIdle({ timeout: 90000 });
+    const client = await page.createCDPSession();
+    await client.send('Network.clearBrowserCookies');
+    await client.send('Network.clearBrowserCache');
+    await page.reload();
+
     await page.waitForSelector("div[page-select-open-btn]", { visible: true, timeout: 90000 });
-    await page.waitForNetworkIdle();
+
 
     await page.evaluate(() => {
       window.scrollTo(0, document.body.scrollHeight);
@@ -147,6 +187,7 @@ async function GetAllPetLinks(index:number){
 }
 
 const extractedData: PetProfile[] = [];
+
 async function BuildPetFlyer(url:string){
   if(browser == undefined){
     console.error("ERROR: Could not query pet bio page. Browser is undefined.");
@@ -158,7 +199,13 @@ async function BuildPetFlyer(url:string){
   try{
 
     await page.goto(url);
-    await page.waitForNetworkIdle();
+
+    await page.waitForNetworkIdle({ timeout: 90000 });
+    const client = await page.createCDPSession();
+    await client.send('Network.clearBrowserCookies');
+    await client.send('Network.clearBrowserCache');
+    await page.reload();
+    await page.waitForSelector('span[data-test="Pet_Name"', {timeout: 9000});
   
     const petNamePromise = page.evaluate(()=>{
       return Promise.resolve(document.querySelector('span[data-test="Pet_Name"')?.textContent);
@@ -209,7 +256,8 @@ async function BuildPetFlyer(url:string){
     //update processed url list
     const processedUrl: Data =  {
       PetName: petNameData.trim(),
-      Url: url
+      Url: url,
+      DateAdded: new Date()
     }
     processedLinks.push(processedUrl);
     FileUtility.writeFile(dataFilePath, JSON.stringify(processedLinks, null, 4));

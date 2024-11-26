@@ -1,19 +1,25 @@
 {
   "name": "petfinder-webscraper",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Extracts pet bios from PetFinder and generates a PDF sorting them A-Z.",
   "main": "src/index.ts",
   "bin": "dist/index.js",
   "dependencies": {
     "@types/puppeteer": "^7.0.4",
+    "dotenv": "^16.4.5",
     "html-docx-js": "^0.3.1",
     "html2pdf-ts": "^1.2.22",
     "node-fetch": "^3.3.2",
+    "nodemailer": "^6.9.16",
     "p-limit": "^3.1.0",
     "puppeteer": "^23.6.1",
-    "puppeteer-core": "^23.6.1"
+    "puppeteer-core": "^23.6.1",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
   },
   "scripts": {
+    "test-email": "ts-node scripts/testEmailUtility.ts",
+    "regen-pdf": "ts-node scripts/generatePDF.ts",
     "dev": "ts-node src/index.ts",
     "build": "tsc && npx ts-node scripts/download-chrome.js && cp template.html dist && cp config.json dist",
     "start": "npm run build && node dist/index.js",
@@ -35,6 +41,7 @@
   "devDependencies": {
     "@types/html-docx-js": "^0.3.4",
     "@types/node": "^22.8.7",
+    "@types/nodemailer": "^6.4.17",
     "download-chromium": "^3.0.0",
     "pkg": "^5.8.1",
     "typescript": "^5.6.3"

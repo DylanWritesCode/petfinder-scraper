@@ -3,7 +3,10 @@ import {default as path} from 'path';
 import {Config} from './interfaces/Config';
 import * as petFinderScraper from './ScrapePetFinder';
 import puppeteer from 'puppeteer';
+import * as dotenv from "dotenv";
 
+
+dotenv.config();
 
 declare var process : {
     cwd(): string;
