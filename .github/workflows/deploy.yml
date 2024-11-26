@@ -8,7 +8,9 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v2
-      - name: Checkout and Install Dependencies
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
         run: |
           npm i
