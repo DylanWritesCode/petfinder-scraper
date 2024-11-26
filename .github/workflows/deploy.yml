@@ -23,7 +23,8 @@ jobs:
           echo "EMAIL_USER=\"${{ secrets.EMAIL_USER }}\"" >> .env
           echo "EMAIL_KEY=\"${{ secrets.EMAIL_KEY }}\"" >> .env
           echo "EMAIL_TO=\"${{ secrets.EMAIL_TO }}\"" >> .env
+          echo "CHROME_BROWSER_LOCATION=\"/usr/bin/chromium-browser\"" >> .env
           
       - name: Copy files
         run: |
-          cp -r ~/actions-runner/_work/petfinder-scraper/petfinder-scraper ~/petfinder-scraper
+          cp -a ~/actions-runner/_work/petfinder-scraper/petfinder-scraper/. ~/petfinder-scraper
