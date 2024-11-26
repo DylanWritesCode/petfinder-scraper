@@ -25,6 +25,8 @@ if(process.env.CHROME_PATH !== undefined && process.env.CHROME_PATH !== null && 
     chromiumExecutablePath = process.env.CHROME_PATH;
 }
 
+console.log(`Chrome Path: ${chromiumExecutablePath}`);
+
 const parentDir = process.cwd();
 if(isPkg && !fs.existsSync(path.join(parentDir,"chromium"))) {
     const test = path.join(parentDir,"chromium");
