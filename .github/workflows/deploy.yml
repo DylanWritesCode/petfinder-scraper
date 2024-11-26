@@ -1,0 +1,25 @@
+name: Deploy to Raspberry Pi
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+      - name: Checkout and Install Dependencies
+        run: |
+          npm i
+  deploy:
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - name: Stop App
+        run: systemctl stop petfinder-scraper
+        
+      - name: Copy New Release
+        run: |
+          source flask-env/bin/activate
+          RUNNER_TRACKING_ID=""
+          gunicorn -w 1 -b 0.0.0.0:4000 app:app -D --log-file=gunicorn.log
+
+      - name: Start App
+        run: systemctl start petfinder-scraper
