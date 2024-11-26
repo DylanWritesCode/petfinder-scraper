@@ -25,4 +25,4 @@ jobs:
           
       - name: Copy files
         run: |
-          cp ~/actions-runner/_work/petfinder-scraper/petfinder-scraper ~/petfinder-scraper
+          cp -r ~/actions-runner/_work/petfinder-scraper/petfinder-scraper ~/petfinder-scraper
