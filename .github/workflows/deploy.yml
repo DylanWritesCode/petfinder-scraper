@@ -17,6 +17,12 @@ jobs:
       - name: Install dependencies
         run: npm install
         
+      - name: Set up environment variables
+        run: |
+          echo "EMAIL_USER=${{ secrets.EMAIL_USER }}" >> .env
+          echo "EMAIL_KEY=${{ secrets.EMAIL_KEY }}" >> .env
+          echo "EMAIL_TO=${{ secrets.EMAIL_TO }}" >> .env
+          
       - name: Move files
         run: |
-          mv /actions-runner/_work/petfinder-scraper/petfinder-scraper/* ~/petfinder-scraper
+          mv ~/actions-runner/_work/petfinder-scraper/petfinder-scraper ~/petfinder-scraper
