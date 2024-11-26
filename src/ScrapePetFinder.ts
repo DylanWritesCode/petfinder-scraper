@@ -158,6 +158,7 @@ async function GetAllPetLinks(index:number){
 
 
     await page.waitForNetworkIdle({ timeout: 90000 });
+    console.log(await page.title());
     const client = await page.createCDPSession();
     await client.send('Network.clearBrowserCookies');
     await client.send('Network.clearBrowserCache');
