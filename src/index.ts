@@ -21,8 +21,8 @@ let chromiumExecutablePath = isPkg ? puppeteer.executablePath().replace(
   )
 : puppeteer.executablePath();
 
-if(process.env.CHROME_PATH !== undefined && process.env.CHROME_PATH !== null && process.env.CHROME_PATH.length > 0) {
-    chromiumExecutablePath = process.env.CHROME_PATH;
+if(process.env.CHROME_BROWSER_LOCATION !== undefined && process.env.CHROME_BROWSER_LOCATION !== null && process.env.CHROME_BROWSER_LOCATION.length > 0) {
+    chromiumExecutablePath = process.env.CHROME_BROWSER_LOCATION;
 }
 
 console.log(`Chrome Path: ${chromiumExecutablePath}`);
